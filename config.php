@@ -1,27 +1,26 @@
 <?php
 
-    // if (isset($_GET['R'])) { $rid = $_GET['R']; } else { $rid = '0'; }
-    
-        $active_session = $_COOKIE["active_session"];
-        $u_sql        = mysqli_query($conn, "SELECT ul.user_id, ul.client_id
-                                              FROM user_login ul
-                                              JOIN user_powerbi_report_map prm ON ul.user_id = prm.user_id
-                                              WHERE ul.active_session = '$active_session'
-                                              AND ul.status = 1
+        $active_session = $_SESSION["sme_active_session"];
+        $u_sql        = mysqli_query($conn, "SELECT u.user_id, u.client_id, prm.report_id
+                                              FROM user u
+                                              JOIN user_powerbi_report_map prm ON u.user_id = prm.user_id
+                                              WHERE
+                                              u.active_session = '$active_session'
+                                              AND u.status = 1
                                               AND prm.status = 1
-                                              AND prm.report_id = $rid;");
+                                              LIMIT 1;");
 
             while ($data = mysqli_fetch_array($u_sql)) {
 
                     $user_id            = mysqli_real_escape_string($conn, $data['user_id']);
                     $client_id          = mysqli_real_escape_string($conn, $data['client_id']);
-
+                    $rid                = mysqli_real_escape_string($conn, $data['report_id']);
             }
 
 
       if (isset($client_id)) {
 
-       $api_query          = mysqli_query($conn, "SELECT * FROM powerbi_api WHERE status = 1;");
+       $api_query          = mysqli_query($conn, "SELECT * FROM powerbi_api WHERE status = 1 AND id = 2;");
 
         while($data=mysqli_fetch_array($api_query)){
 

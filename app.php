@@ -1,6 +1,6 @@
 
 <main class='main'>
-        
+
                     <style>
                         iframe {border:none;}
                         .page {background:#EAEAEA;}
@@ -9,16 +9,16 @@
                                 overflow:hidden;
                             }
                     </style>
-                    			
+
                     <div id="embedContainer" class="embedContainer" style="height:100%"></div>
-</main>                    
+</main>
 
 
                      <script>
                                 $(document).ready(function(){
                                     $('#embedContainer').height($(window).height());
                                 });
-                               
+
                                 // Read embed application token from Model
                                 var embedToken  = '<?= $embedtoken ;?>';
                                 // Read report Id from Model
@@ -39,7 +39,7 @@
 //                                  operator: "In",
 //                                  values: ["Adopt Demo"]
 //                                };
- 
+
                                 // Get models. models contains enums that can be used.
                                 var models = window['powerbi-client'].models;
                                 // We give All permissions to demonstrate switching between View and Edit mode and saving report.
@@ -48,57 +48,25 @@
                                 // This object is used when calling powerbi.embed.
                                 // This also includes settings and options such as filters.
                                 // You can find more information at https://github.com/Microsoft/PowerBI-JavaScript/wiki/Embed-Configuration-Details.
-                         
-                                <?php
-                                require_once 'Mobile_Detect.php';
-                                $detect = new Mobile_Detect;
 
-                                    // Select Mobiles //sourced from: http://mobiledetect.net/
-                                    if( $detect->isMobile() ){
-                                            ?>
-                                            var config= {
-                                                type: 'dashboard',
-                                                tokenType: models.TokenType.Embed,
-                                                accessToken: embedToken,
-                                                embedUrl: embedUrl,
-                                                id: '8976e471-b6ca-4ff9-a84c-80ac3f1d77fe',
-                                                permissions: permissions,                           
-                                                
-                                            };
-                                            // Get a reference to the embedded report HTML element
-                                            var embedContainer = $('#embedContainer')[0];
-                                            // Embed the report and display it within the div container.
-                                            var report = powerbi.embed(embedContainer, config);
-                                            <?php
+                                var config= {
+                                    type: 'report',
+                                    tokenType: models.TokenType.Embed,
+                                    accessToken: embedToken,
+                                    embedUrl: embedUrl,
+                                    id: reportId,
+                                    permissions: permissions,
+                                    pageName: reportPage,
+                                    settings: {
+                                        filterPaneEnabled: true,
+                                        navContentPaneEnabled: false
+                                    };
 
-                                    }
+                                    // Get a reference to the embedded report HTML element
+                                    var embedContainer = $('#embedContainer')[0];
+                                    // Embed the report and display it within the div container.
+                                    var report = powerbi.embed(embedContainer, config);
 
-                                    else {
-                                            ?>
-                                            var config= {
-                                                type: 'report',
-                                                tokenType: models.TokenType.Embed,
-                                                accessToken: embedToken,
-                                                embedUrl: embedUrl,
-                                                id: reportId,
-                                                permissions: permissions,
-                                                pageName: reportPage,                                 
-                                                settings: {
-                                                    filterPaneEnabled: true,
-                                                    navContentPaneEnabled: false
-                                                }
-                                            };
-                                            // Get a reference to the embedded report HTML element
-                                            var embedContainer = $('#embedContainer')[0];
-                                            // Embed the report and display it within the div container.
-                                            var report = powerbi.embed(embedContainer, config);
-                                            <?php
-                                        
-                                    }
-                                ?>
-                         
-                                
-                            
                                 // Set the filter for the report.
                                 // Pay attention that setFilters receives an array.
 //                                report.setFilters([filter])
@@ -107,7 +75,7 @@
 //                                    });
 
 
-                                
+
                     </script>
 
 	</body>

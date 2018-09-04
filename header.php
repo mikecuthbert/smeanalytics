@@ -7,7 +7,9 @@
 		<meta name="description" content="Analytics">
 		<meta name="author" content="Mike Cuthbert">
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-		<?php	include('global.php'); ?>
+		<?php
+			include('global.php');
+		?>
 	</head>
 
 	<body class='page'>

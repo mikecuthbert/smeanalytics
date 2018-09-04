@@ -41,46 +41,6 @@ $embeddedToken          = "Bearer "  . ' ' .  $accesstoken;
 
 $curlEmbedToken = curl_init();
 
-require_once 'mobile_detect.php';
-$detect = new mobile_detect;
-
-// Identify Mobiles //sourced from: http://mobiledetect.net/
-    if( $detect->isMobile() ){
-
-            // dashboard version
-            $embedURL               = 'https://app.powerbi.com/dashboardEmbed?dashboardId=' . $report_id . '&groupId=' . $group_id;
-            curl_setopt_array($curlEmbedToken, array(
-                                                CURLOPT_URL             => "https://api.powerbi.com/v1.0/myorg/groups/$group_id/dashboard/$report_id/GenerateToken",
-                                                CURLOPT_SSL_VERIFYPEER  => false,
-                                                CURLOPT_RETURNTRANSFER  => true,
-                                                CURLOPT_ENCODING        => "",
-                                                CURLOPT_MAXREDIRS       => 10,
-                                                CURLOPT_TIMEOUT         => 30,
-                                                CURLOPT_HTTP_VERSION    => CURL_HTTP_VERSION_1_1,
-                                                CURLOPT_CUSTOMREQUEST   => "POST",
-                                                CURLOPT_POSTFIELDS      => "accessLevel: View",
-                                                CURLOPT_HTTPHEADER      => array(
-                                                                            "Authorization: $embeddedToken",
-                                                                            "Cache-Control: no-cache",
-                                                                            "Content-Type: application/x-www-form-urlencoded",
-                                                                            )
-                                                    )
-                              );
-
-            $embedResponse = curl_exec($curlEmbedToken);
-            $embedError = curl_error($curlEmbedToken);
-            curl_close($curlEmbedToken);
-
-            $embedtokenResult            = json_decode($embedResponse, true);
-            $embedtoken                  = $embedtokenResult["token"];
-
-            if ($embedError) {
-                                echo "cURL Error #:" . $embedError;
-                            }
-    }
-
-    else {
-
             // report version
             $embedURL               = 'https://app.powerbi.com/reportEmbed?reportId=' . $report_id . '&groupId=' . $group_id;
             curl_setopt_array($curlEmbedToken, array(
@@ -110,6 +70,6 @@ $detect = new mobile_detect;
 
             if ($embedError) {
                                 echo "cURL Error #:" . $embedError;
-    }                  }
+                          }
 
 ?>

@@ -1,10 +1,11 @@
 <?php
 
-session_start()
+session_start();
+
 include('header.php');
 include('database.php');
 
-  if (isset($_COOKIE["active_session"])) {
+  if (isset($_SESSION["sme_active_session"])) {
 
               include('config.php');
               include('menu.php');

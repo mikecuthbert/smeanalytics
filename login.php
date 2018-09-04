@@ -36,9 +36,9 @@
                 $password            = mysqli_real_escape_string($conn, $_POST['password']);
 
 
-                $user_success        = mysqli_query($conn, "SELECT user_id, password, role_id,
+                $user_success        = mysqli_query($conn, "SELECT user_id, password,
                                                             RAND()*user_id as rand_user_id
-                                                            FROM user_login
+                                                            FROM user
                                                             WHERE status = 1
                                                             AND UPPER(username) = UPPER('$username')
                                                             ;");
@@ -60,20 +60,19 @@
                                 $sess_user_id           = mysqli_real_escape_string($conn, $data['user_id']);
                                 $rand_user_id           = mysqli_real_escape_string($conn, $data['rand_user_id']);
                                 $hashed_password        = mysqli_real_escape_string($conn, $data['password']);
-                                $role_id                = mysqli_real_escape_string($conn, $data['role_id']);
 
                         }
 
                     if(password_verify($password, $hashed_password)) {
 
                                         $active_session                 = md5($rand_user_id);
-                                        $_SESSION['active_session']     = $active_session;
-                                        $_SESSION['role_id']            = $role_id;
-                                        setcookie("active_session",$_SESSION["active_session"],time()+86400*30);
+                                        $_SESSION['sme_active_session'] = $active_session;
+                                        // setcookie("sme_active_session",$_SESSION["sme_active_session"],time()+86400*30);
 
-                                        mysqli_query($conn, "UPDATE user_login SET active_session = '$active_session' WHERE user_id = $sess_user_id;");
-    //                                    echo $active_session;
-                                        ?><script>  location.href = 'index.php'; </script> <?php
+                                        mysqli_query($conn, "UPDATE user SET active_session = '$active_session' WHERE user_id = $sess_user_id;");
+                                        ?><script>
+                                            location.href = 'index.php';
+                                          </script> <?php
                     }
 
                     else {
@@ -81,7 +80,7 @@
                             <script>
                                 alert("Username or Password not recognised, please try again!!");
                                 session_destroy(); //destroy the session
-                                location.href =  'index.php';
+                                location.href = 'index.php';
                             </script>
                         <?php
 

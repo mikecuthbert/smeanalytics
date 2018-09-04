@@ -1,6 +1,6 @@
 <?php
 
-    $pageData   = mysqli_query($conn, "SELECT * FROM powerbi_report_page_map WHERE client_id = '1' and report_id = $rid and status = 1 and order_id = 1; ");
+    $pageData   = mysqli_query($conn, "SELECT * FROM powerbi_report_page_map WHERE client_id = $client_id and status = 1 and order_id = 1; ");
 
     while($data=mysqli_fetch_array($pageData)) {
                 $def_page_id          = mysqli_real_escape_string($conn,$data['page_id']);
@@ -24,7 +24,7 @@
 
 
 
-            <li><a href="../analytics.php"><i class="material-icons">apps</i><span>Reports</span><img src="images/advanced-analytics.png" alt="Launch" class="active-app"></a></li>
+            <li><a href="../analytics.php"><i class="material-icons">apps</i><span>Reports</span><img src="img/sme_small.png" alt="Launch" class="active-app"></a></li>
             <!--<li><a href="#"><i class="material-icons">access_time</i><span>Realtime</span></a></li>-->
 
             <li><a href="#"><i class="material-icons">chrome_reader_mode</i><span>Analytics</span></a></li>
@@ -53,5 +53,5 @@
 
         </ul>
     </div>
-    <img src="images/ADOPT-LOGO-WHITE.png" alt="ADOPT" id="adopt-logo" class="hidden-xs"/>
+    <img src="img/sme_small.png" alt="Logo" id="logo" class="hidden-xs"/>
 </div>
